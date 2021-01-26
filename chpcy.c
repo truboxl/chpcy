@@ -4,7 +4,7 @@
 #include "portability.h"
 
 int main(int argc, char *argv[]) {
-    if(argc == 1) {
+    if (argc == 1) {
         puts("chpcy <tid> [<policy>]\n");
         puts("Show or change the Android scheduling policy (PCY) for a given thread or process");
         puts("Powered by libprocessgroup / libcutils\n");
@@ -17,14 +17,13 @@ int main(int argc, char *argv[]) {
     int tid;
     sscanf(argv[1], "%d", &tid);
     char *fmt = "TID %d's %s scheduling policy: %s\n";
-    if(argc == 2) {
+    if (argc == 2) {
         int result = get_sched_policy(tid, &current_policy);
         printf(fmt, tid, "current", get_sched_policy_name(current_policy));
         return result;
     }
-    if(argc == 3) {
+    if (argc == 3) {
         // TODO still no idea why it does not work
-        //
         get_sched_policy(tid, &current_policy);
         printf(fmt, tid, "current", get_sched_policy_name(current_policy));
         int new_policy;
@@ -34,7 +33,7 @@ int main(int argc, char *argv[]) {
         printf(fmt, tid, "new", get_sched_policy_name(current_policy));
         return result;
     }
-    if(argc > 3) {
+    if (argc > 3) {
         puts("Invalid argument!");
         return -1;
     }
