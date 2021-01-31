@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
         puts("Powered by libprocessgroup / libcutils\n");
         puts("Example:");
         puts("\tchpcy 2340\tget scheduling policy for TID 2341");
-        puts("\tchpcy 15678 bg\tset TID 15678 in bg policy");
+        puts("\tchpcy 15678 0\tset TID 15678 in bg policy");
         return 0;
     }
     SchedPolicy current_policy;
