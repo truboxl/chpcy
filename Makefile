@@ -17,7 +17,9 @@ chpcy-libcutils:
 	${CC} chpcy.c -o chpcy -l cutils -I platform_system_core/libcutils/include
 
 clean:
-	rm -fr test chpcy
+	rm -f test
+	rm -f chpcy
+	rm -f a.*
 
 install: all
 	mkdir -p ${PREFIX}/bin
