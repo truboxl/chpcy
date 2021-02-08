@@ -22,11 +22,13 @@ Since it depends on `libprocessgroup.so` or `libcutils.so` that is Android versi
 
 Anything that uses `libprocessgroup` needs to be built from AOSP!!!
 
-This is why `toybox` that allows reading PCY using `top` & `ps` have to be built from AOSP. See [landley/toybox#43 comment](https://github.com/landley/toybox/issues/43#issuecomment-261735594).
+This is why `toybox` that allows reading PCY using `top` & `ps` have to be built from AOSP
 
-While I haven't did that yet, the other methods are:
+<https://github.com/landley/toybox/issues/43#issuecomment-261735594>
 
-1. Pull `/system/lib64/libprocessgroup.so` from device and use NDK to build `chpcy`. TODO
+While I figured out how, the other methods are:
+
+1. Pull `/system/lib64/libprocessgroup.so` from device and use NDK to build `chpcy`. **TODO**
 
 1. Build `chpcy` directly on-device using Termux, which you can just:
 
@@ -37,9 +39,21 @@ While I haven't did that yet, the other methods are:
     $ ./chpcy <pid>
     $ ./chpcy <pid> <policy>
 
-### It does not work! / It can't change PCY!
+### But it does not work! / it can't change PCY!
 
-May need higher privilege accounts like root, or some stuff that I don't know. Sorry, TODO
+May need higher privilege accounts like root, or some stuff that I don't know. Sorry, **TODO**
+
+#### Further investigation seems to suggest that libcutils / libprocessgroup are private libraries and shouldn't be used by user apps. If you really have to use them, you should bundle them yourself. This explains why the libs have to built from AOSP as Android version changes. I assume they will be blocked via linker namespaces.
+
+<https://android-developers.googleblog.com/2016/06/improving-stability-with-private-cc.html>
+
+<https://android-developers.googleblog.com/2016/06/android-changes-for-ndk-developers.html>
+
+<https://github.com/android/ndk/issues/1186#issuecomment-585352743>
+
+<https://source.android.com/devices/architecture/modular-system/runtime#linker-configuration-changes>
+
+<https://source.android.com/devices/architecture/vndk/linker-namespace>
 
 ### Extra references
 
@@ -53,6 +67,14 @@ May need higher privilege accounts like root, or some stuff that I don't know. S
 
 <https://android.googlesource.com/platform/system/core/+/master/libprocessgroup/sched_policy.cpp>
 
-### Proper alternatives (that are reliable for user applications)
+<https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/os/Process.java>
 
-Just use `chrt`, `sched_setscheduler()` or those Java APIs in user space if you have no root
+### Proper alternatives (that are reliable for user applications) / TLDR
+
+Just use `chrt` or `sched_setscheduler()` or `Java APIs` **TODO** in user space
+
+<https://developer.android.com/reference/android/os/Process#THREAD_PRIORITY_BACKGROUND>
+
+<https://github.com/android/ndk/issues/1182#issuecomment-582534626> (use Java API when NDK is missing the API)
+
+<https://developer.android.com/about/versions/nougat/android-7.0-changes#ndk-update>
