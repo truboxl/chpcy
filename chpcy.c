@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     SchedPolicy current_policy;
     int tid;
     sscanf(argv[1], "%d", &tid);
-    char *fmt = "TID %d's %s scheduling policy: %s\n";
+    const char *fmt = "TID %d's %s scheduling policy: %s\n";
     if (argc == 2) {
         int result = get_sched_policy(tid, &current_policy);
         printf(fmt, tid, "current", get_sched_policy_name(current_policy));
